@@ -32,12 +32,12 @@ line= turtle.clone()
 turtle.hideturtle()
 line.pencolor("white")
 line.penup()
-line.goto(-410, 280)
+line.goto(-410, 260)
 line.pendown()
-line.goto(410, 280)
-line.goto(410, -280)
-line.goto(-410,-280)
-line.goto(-410, 280)
+line.goto(410, 260)
+line.goto(410, -260)
+line.goto(-410,-260)
+line.goto(-410, 260)
 line.penup()
 line.goto(0, 400)
 line.pendown()
@@ -47,6 +47,7 @@ scores= turtle.clone()
 scores.penup()
 scores.pencolor("white")
 scores.goto(0,-400)
+line.goto(0,0)
 
 #Draw a snake at the start of the game with a for loop
 #for loop should use range() and count up to the number of pieces
@@ -182,18 +183,28 @@ def move_snake():
     
     if new_x_pos >= RIGHT_EDGE:
         print("You hit the right edge! Game over!")
+        line.write("haha! you lose!", align="center", font=("arial", 30, "normal"))
+        time.sleep(3)
         quit()
     elif new_x_pos <= LEFT_EDGE:
         print("You hit the left edge! Game over!")
+        line.write("haha! you lose!", align="center", font=("arial", 30, "normal"))
+        time.sleep(3)
         quit()
     elif new_y_pos >= UP_EDGE:
         print("You hit the top edge! Game over!")
+        line.write("haha! you lose!", align="center", font=("arial", 30, "normal"))
+        time.sleep(3)
         quit()
     elif new_y_pos <= DOWN_EDGE:
         print("You hit the bottom edge! Game over!")
+        line.write("haha! you lose!", align="center", font=("arial", 30, "normal"))
+        time.sleep(3)
         quit()
 
     if snake.pos() in pos_list:
+        line.write("didn't your parents tell you not to eat yourself!?", align="center", font=("arial", 30, "normal"))
+        time.sleep(3)
         quit()
    
 
@@ -217,12 +228,13 @@ def move_snake():
         food_pos.pop(food_ind) #Remove eaten food position
         food_stamps.pop(food_ind) #Remove eaten food stamp
         print("You have eaten the food!")
-        score=score+1
+        score=score+10
         print(score)
         scores.pendown()
         scores.clear()
         scores.write((score), align="center", font=("arial",18,"normal"))
-        
+        global TIME_STEP
+        TIME_STEP= TIME_STEP-5
     else:   
         old_stamp = stamp_list.pop(0)
         snake.clearstamp(old_stamp)
