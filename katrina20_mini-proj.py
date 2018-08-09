@@ -1,5 +1,6 @@
 import turtle
 import random #We'll need this later in the lab
+import time
 turtle.bgcolor("black")
 
 turtle.tracer(1,0) #This helps the turtle move more smoothly
@@ -32,12 +33,12 @@ line= turtle.clone()
 turtle.hideturtle()
 line.pencolor("white")
 line.penup()
-line.goto(-410, 260)
+line.goto(-410, 280)
 line.pendown()
-line.goto(410, 260)
-line.goto(410, -260)
-line.goto(-410,-260)
-line.goto(-410, 260)
+line.goto(410, 280)
+line.goto(410, -280)
+line.goto(-410,-280)
+line.goto(-410, 280)
 line.penup()
 line.goto(0, 400)
 line.pendown()
@@ -136,7 +137,37 @@ food = turtle.clone()
 food.shape("trash.gif")
 food_pos = [(100,100), (-100,100), (-100,-100), (100,-100)]
 food_stamps = []
+
+turtle.register_shape("rock.gif")
+rock= turtle.clone()
+rock.shape("rock.gif")
+rock_pos=[(60,60), (-60, 60), (-60, -60), (60, -60)]
+rock_stamps=[]
+
 x=0
+for this_rock_pos in rock_pos:
+    rock.goto(rock_pos[x])
+    rock_stamp= rock.stamp()
+    rock_stamps.append(rock_stamp)
+    x= x+1
+
+    
+def make_rocks():
+    global rock
+    min_x=-int(SIZE_X/2/SQUARE_SIZE)+1
+    max_x=int(SIZE_X/2/SQUARE_SIZE)-1
+    min_y=-int(SIZE_Y/2/SQUARE_SIZE)-1
+    max_y=int(SIZE_Y/2/SQUARE_SIZE)+1
+    rock_x = random.randint(min_x,max_x)*SQUARE_SIZE
+    rock_y = random.randint(min_y,max_y)*SQUARE_SIZE
+    rock.goto(rock_x, rock_y)
+    rock_pos.append(rock.pos())
+    rock_stamp=rock.stamp()
+    rock_stamps.append(rock_stamp)
+    
+    
+
+x=0   
 for this_food_pos in food_pos :
     food.goto(food_pos[x])
     food_stamp= food.stamp()
@@ -202,7 +233,7 @@ def move_snake():
         time.sleep(3)
         quit()
 
-    if snake.pos() in pos_list:
+    if pos_list[-1] in pos_list[0:-1]:
         line.write("didn't your parents tell you not to eat yourself!?", align="center", font=("arial", 30, "normal"))
         time.sleep(3)
         quit()
@@ -234,7 +265,7 @@ def move_snake():
         scores.clear()
         scores.write((score), align="center", font=("arial",18,"normal"))
         global TIME_STEP
-        TIME_STEP= TIME_STEP-5
+        TIME_STEP= TIME_STEP-1
     else:   
         old_stamp = stamp_list.pop(0)
         snake.clearstamp(old_stamp)
